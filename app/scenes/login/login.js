@@ -15,7 +15,6 @@ import {
 import Button from 'react-native-button';
 import FormattedText from 'app/components/formatted_text';
 import ErrorText from 'app/components/error_text';
-import Loading from 'app/components/loading';
 import {GlobalStyles} from 'app/styles';
 
 import logo from 'assets/images/logo.png';
@@ -31,8 +30,6 @@ class Login extends Component {
             handleSuccessfulLogin: React.PropTypes.func.isRequired,
             checkMfa: React.PropTypes.func.isRequired,
             login: React.PropTypes.func.isRequired,
-            getClientConfig: React.PropTypes.func.isRequired,
-            getLicenseConfig: React.PropTypes.func.isRequired,
             goToMfa: React.PropTypes.func.isRequired,
             goToLoadTeam: React.PropTypes.func.isRequired
         }).isRequired,
@@ -41,9 +38,7 @@ class Login extends Component {
         loginId: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
         checkMfaRequest: PropTypes.object.isRequired,
-        loginRequest: PropTypes.object.isRequired,
-        configRequest: PropTypes.object.isRequired,
-        licenseRequest: PropTypes.object.isRequired
+        loginRequest: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -52,11 +47,6 @@ class Login extends Component {
         this.state = {
             error: null
         };
-    }
-
-    componentWillMount() {
-        this.props.actions.getClientConfig();
-        this.props.actions.getLicenseConfig();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -157,10 +147,6 @@ class Login extends Component {
     }
 
     render() {
-        if (this.props.configRequest.status === RequestStatus.STARTED || this.props.licenseRequest.status === RequestStatus.STARTED) {
-            return <Loading/>;
-        }
-
         return (
             <KeyboardAvoidingView
                 behavior='padding'

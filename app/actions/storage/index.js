@@ -17,7 +17,7 @@ export function loadStorage() {
 
             dispatch(batchActions([
                 {type: GeneralTypes.RECEIVED_APP_CREDENTIALS, data: credentials},
-                {type: TeamsTypes.SELECT_TEAM, data: currentTeamId},
+                {type: TeamsTypes.SELECT_TEAM, data: (currentTeamId || '')},
                 {type: ChannelTypes.SELECT_CHANNEL, data: currentChannelId}
             ]), getState);
         } catch (error) {

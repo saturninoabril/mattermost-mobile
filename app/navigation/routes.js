@@ -8,12 +8,14 @@ import {
     ChannelMembers,
     LoadTeam,
     Login,
+    LoginOptions,
     Mfa,
     RightMenuDrawer,
     Root,
     Search,
     SelectServer,
-    SelectTeam
+    SelectTeam,
+    Saml
 } from 'app/scenes';
 
 import keyMirror from 'service/utils/key_mirror';
@@ -60,6 +62,14 @@ export const Routes = {
             title: {id: 'mobile.routes.login', defaultMessage: 'Login'}
         }
     },
+    LoginOptions: {
+        key: 'LoginOptions',
+        transition: RouteTransitions.Horizontal,
+        component: LoginOptions,
+        navigationProps: {
+            title: {id: 'mobile.routes.loginOptions', defaultMessage: 'Login Chooser'}
+        }
+    },
     Mfa: {
         key: 'Mfa',
         transition: RouteTransitions.Horizontal,
@@ -94,6 +104,14 @@ export const Routes = {
         component: SelectTeam,
         navigationProps: {
             title: {id: 'mobile.routes.selectTeam', defaultMessage: 'Select Team'}
+        }
+    },
+    Saml: {
+        key: 'Saml',
+        transition: RouteTransitions.Horizontal,
+        component: Saml,
+        navigationProps: {
+            title: {id: 'mobile.routes.saml', defaultMessage: 'Single SignOn'}
         }
     }
 };

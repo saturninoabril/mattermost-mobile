@@ -1,5 +1,5 @@
 {
-    "DefaultServerUrl": "http://localhost:8065",
+    "DefaultServerUrl": "https://elias.ngrok.io",
     "DefaultLocale": "en",
     "DefaultTheme": "default"
 }
