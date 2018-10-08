@@ -34,6 +34,7 @@ export default class CustomListRow extends React.PureComponent {
             <ConditionalTouchable
                 touchable={Boolean(this.props.enabled && this.props.onPress)}
                 onPress={this.props.onPress}
+                style={{flex: 1}}
             >
                 <View style={style.container}>
                     {this.props.selectable &&
@@ -62,12 +63,15 @@ const getStyleFromTheme = makeStyleSheetFromTheme((theme) => {
     return {
         container: {
             flexDirection: 'row',
-            height: 65,
-            paddingHorizontal: 15,
+            // height: 65,
+            flex: 1,
+            // paddingHorizontal: 15,
             alignItems: 'center',
-            backgroundColor: theme.centerChannelBg,
+            // backgroundColor: theme.centerChannelBg,
+            // backgroundColor: 'black',
         },
         children: {
+            flex: 1,
             flexDirection: 'row',
         },
         selector: {
@@ -80,7 +84,7 @@ const getStyleFromTheme = makeStyleSheetFromTheme((theme) => {
             justifyContent: 'center',
         },
         selectorContainer: {
-            flex: 1,
+            // flex: 1,
             height: 50,
             paddingRight: 15,
             alignItems: 'center',

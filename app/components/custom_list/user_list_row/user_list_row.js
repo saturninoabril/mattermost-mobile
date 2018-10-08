@@ -58,12 +58,13 @@ export default class UserListRow extends React.PureComponent {
             }, {username});
         }
 
-        if (user.delete_at > 0) {
-            usernameDisplay = formatMessage({
-                id: 'more_direct_channels.directchannel.deactivated',
-                defaultMessage: '{displayname} - Deactivated',
-            }, {displayname: usernameDisplay});
-        }
+        // if (user.delete_at > 0) {
+        //     // usernameDisplay = formatMessage({
+        //     //     id: 'more_direct_channels.directchannel.deactivated',
+        //     //     defaultMessage: '{displayname} - Deactivated',
+        //     // }, {displayname: usernameDisplay});
+        //     usernameDisplay += '- Deactivated';
+        // }
 
         const teammateDisplay = displayUsername(user, teammateNameDisplay);
         const showTeammateDisplay = teammateDisplay !== username;
@@ -84,15 +85,24 @@ export default class UserListRow extends React.PureComponent {
                             size={32}
                         />
                     </View>
-                    <View style={[style.textContainer, (showTeammateDisplay ? style.showTeammateDisplay : style.hideTeammateDisplay)]}>
-                        <View>
-                            <Text
-                                style={style.username}
-                                ellipsizeMode='tail'
-                                numberOfLines={1}
-                            >
-                                {usernameDisplay}
-                            </Text>
+                    <View style={[style.textContainer, {backgroundColor: 'red'}]}>
+                        <View style={style.usernameContainer}>
+                            <View>
+                                <Text
+                                    style={style.username}
+                                    ellipsizeMode='tail'
+                                    numberOfLines={1}
+                                >
+                                    {usernameDisplay}
+                                </Text>
+                            </View>
+                            {user.delete_at > 0 &&
+                            <View>
+                                <Text style={style.deactivated}>
+                                    {'- DeactivatedLoonng'}
+                                </Text>
+                            </View>
+                            }
                         </View>
                         {showTeammateDisplay &&
                         <View>
@@ -106,7 +116,7 @@ export default class UserListRow extends React.PureComponent {
                         </View>
                         }
                     </View>
-                    <View style={style.rightFiller}/>
+                    {/* <View style={style.rightFiller}/> */}
                 </CustomListRow>
             </View>
         );
@@ -117,8 +127,10 @@ const getStyleFromTheme = makeStyleSheetFromTheme((theme) => {
     return {
         container: {
             flex: 1,
+            height: 65,
             flexDirection: 'row',
-            marginLeft: 10,
+            marginHorizontal: 10,
+            backgroundColor: 'yellow',
         },
         profileContainer: {
             flexDirection: 'row',
@@ -126,22 +138,47 @@ const getStyleFromTheme = makeStyleSheetFromTheme((theme) => {
             color: theme.centerChannelColor,
         },
         textContainer: {
+            height: 65,
+            flex: 1,
             marginLeft: 5,
         },
         showTeammateDisplay: {
+            justifyContent: 'center',
             flexDirection: 'column',
             flex: 1,
-        },
-        hideTeammateDisplay: {
-            justifyContent: 'center',
         },
         displayName: {
             fontSize: 15,
             color: changeOpacity(theme.centerChannelColor, 0.5),
+            backgroundColor: 'green',
+        },
+        usernameContainer: {
+            // width: '100%',
+            // height: '100%',
+            // maxWidth: '65%',
+            alignItems: 'center',
+            flexDirection: 'row',
+            flex: -1,
+            backgroundColor: 'brown',
+            overflow: 'hidden',
         },
         username: {
             fontSize: 15,
             color: theme.centerChannelColor,
+            backgroundColor: 'red',
+            // flex: 1,
+            // textAlign: 'left',
+            // maxWidth: '70%',
+        },
+        deactivated: {
+            fontSize: 15,
+            color: theme.centerChannelColor,
+            backgroundColor: 'steelblue',
+            paddingLeft: 5,
+            paddingRight: 10,
+            flex: 1,
+            // textAlign: 'left',
+            // width: 500,
         },
         rightFiller: {
             width: 25,
