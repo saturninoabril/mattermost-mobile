@@ -83,6 +83,7 @@
     "babel-plugin-module-resolver": "3.2.0",
     "babel-plugin-transform-remove-console": "6.9.4",
     "deep-freeze": "0.0.1",
+    "detox": "12.4.1",
     "enzyme": "3.8.0",
     "enzyme-adapter-react-16": "1.9.1",
     "enzyme-to-json": "3.3.5",
@@ -108,11 +109,12 @@
     "check": "eslint --ignore-path .gitignore --ignore-pattern node_modules --quiet .",
     "fix": "eslint --ignore-path .gitignore --ignore-pattern node_modules --quiet . --fix",
     "postinstall": "make post-install",
-    "test": "jest --forceExit --detectOpenHandles",
+    "test": "jest app --forceExit --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "updatesnapshot": "jest --updateSnapshot",
-    "mmjstool": "mmjstool"
+    "mmjstool": "mmjstool",
+    "e2e:ios": "detox test -c ios.sim.debug e2e"
   },
   "rnpm": {
     "assets": [
@@ -141,5 +143,15 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|jail-monkey)"
     ]
+  },
+  "detox": {
+    "test-runner": "jest",
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "Mattermost.app",
+        "type": "ios.simulator",
+        "name": "iPhone 7 Plus"
+      }
+    }
   }
 }

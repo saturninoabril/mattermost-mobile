@@ -24,6 +24,7 @@
     {
       "files": ["*.test.js", "*.test.jsx"],
       "env": {
+        "jasmine": true,
         "jest": true
       }
     }

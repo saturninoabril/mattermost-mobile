@@ -439,7 +439,10 @@ export default class SelectServer extends PureComponent {
                 enabled={Platform.OS === 'ios'}
             >
                 <StatusBar barStyle={statusStyle}/>
-                <TouchableWithoutFeedback onPress={this.blur}>
+                <TouchableWithoutFeedback
+                    onPress={this.blur}
+                    testID='selectServerScreen'
+                >
                     <View style={[GlobalStyles.container, GlobalStyles.signupContainer]}>
                         <Image
                             source={require('assets/images/logo.png')}
@@ -469,10 +472,12 @@ export default class SelectServer extends PureComponent {
                             returnKeyType='go'
                             underlineColorAndroid='transparent'
                             disableFullscreenUI={true}
+                            testID='serverUrlInput'
                         />
                         <Button
                             onPress={this.handleConnect}
                             containerStyle={[GlobalStyles.signupButton, style.connectButton]}
+                            testID='connectButton'
                         >
                             {buttonIcon}
                             <Text style={GlobalStyles.signupButtonText}>

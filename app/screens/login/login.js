@@ -350,6 +350,7 @@ export default class Login extends PureComponent {
                 <Button
                     onPress={this.preSignIn}
                     containerStyle={[GlobalStyles.signupButton, additionalStyle]}
+                    testID='signinButton'
                 >
                     <FormattedText
                         id='login.signIn'
@@ -363,7 +364,10 @@ export default class Login extends PureComponent {
         return (
             <View style={style.container}>
                 <StatusBar/>
-                <TouchableWithoutFeedback onPress={this.blur}>
+                <TouchableWithoutFeedback
+                    onPress={this.blur}
+                    testID='loginScreen'
+                >
                     <KeyboardAwareScrollView
                         ref={this.scrollRef}
                         style={style.container}
@@ -399,6 +403,7 @@ export default class Login extends PureComponent {
                             onSubmitEditing={this.passwordFocus}
                             blurOnSubmit={false}
                             disableFullscreenUI={true}
+                            testID='emailInput'
                         />
                         <TextInput
                             ref={this.passwordRef}
@@ -413,11 +418,13 @@ export default class Login extends PureComponent {
                             returnKeyType='go'
                             onSubmitEditing={this.preSignIn}
                             disableFullscreenUI={true}
+                            testID='passwordInput'
                         />
                         {proceed}
                         <Button
                             onPress={this.forgotPassword}
                             containerStyle={[style.forgotPasswordBtn]}
+                            testID='forgotPasswordButton'
                         >
                             <FormattedText
                                 id='login.forgot'
