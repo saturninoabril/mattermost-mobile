@@ -95,6 +95,7 @@
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
     "jest-enzyme": "7.0.2",
+    "jsdom": "15.1.0",
     "jsdom-global": "3.0.2",
     "metro-react-native-babel-preset": "0.54.0",
     "mmjstool": "github:mattermost/mattermost-utilities#b55348242168df75da500fd813d4105c44eaea08",
