@@ -25,6 +25,8 @@ import {t} from 'app/utils/i18n';
 
 import {RequestStatus} from 'mattermost-redux/constants';
 
+import loggerComponent from 'perf';
+
 const HEIGHT = 38;
 const MAX_WEBSOCKET_RETRIES = 3;
 const CONNECTION_RETRY_SECONDS = 5;
@@ -387,7 +389,7 @@ export default class NetworkIndicator extends PureComponent {
             defaultMessage = 'No internet connection';
         }
 
-        return (
+        return loggerComponent("network_indicator",
             <Animated.View style={[styles.container, {top: this.top, backgroundColor: background, opacity: this.state.opacity}]}>
                 <Animated.View style={styles.wrapper}>
                     <FormattedText

@@ -1,61 +1,63 @@
 package com.mattermost.rnbeta;
 
-import com.mattermost.share.SharePackage;
-import com.mattermost.share.RealPathUtil;
-
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.content.Context;
 import android.os.Bundle;
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Process;
+import android.util.Log;
 
-import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
-import com.oblador.keychain.KeychainPackage;
-import com.reactlibrary.RNReactNativeDocViewerPackage;
-import com.brentvatne.react.ReactVideoPackage;
-import com.horcrux.svg.SvgPackage;
-import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
-import io.sentry.RNSentryPackage;
-import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.gantix.JailMonkey.JailMonkeyPackage;
-import io.tradle.react.LocalAuthPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.facebook.react.ReactPackage;
-import com.facebook.soloader.SoLoader;
-
-import com.imagepicker.ImagePickerPackage;
-import com.gnet.bottomsheet.RNBottomSheetPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.psykar.cookiemanager.CookieManagerPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.reactnativenavigation.NavigationApplication;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
-import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
-import com.wix.reactnativenotifications.core.notification.IPushNotification;
-import com.wix.reactnativenotifications.core.notificationdrawer.IPushNotificationsDrawer;
-import com.wix.reactnativenotifications.core.notificationdrawer.INotificationsDrawerApplication;
-import com.wix.reactnativenotifications.core.AppLaunchHelper;
-import com.wix.reactnativenotifications.core.AppLifecycleFacade;
-import com.wix.reactnativenotifications.core.JsIOHelper;
-
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactMarker;
 import com.facebook.react.bridge.ReactMarkerConstants;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import android.support.annotation.Nullable;
+import com.facebook.soloader.SoLoader;
+import com.gantix.JailMonkey.JailMonkeyPackage;
+import com.gnet.bottomsheet.RNBottomSheetPackage;
+import com.horcrux.svg.SvgPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
+import com.mattermost.share.RealPathUtil;
+import com.mattermost.share.SharePackage;
+import com.oblador.keychain.KeychainPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.philipphecht.RNDocViewerPackage;
+import com.psykar.cookiemanager.CookieManagerPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+import com.reactnativenavigation.NavigationApplication;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.wix.reactnativenotifications.core.AppLaunchHelper;
+import com.wix.reactnativenotifications.core.AppLifecycleFacade;
+import com.wix.reactnativenotifications.core.JsIOHelper;
+import com.wix.reactnativenotifications.core.notification.INotificationsApplication;
+import com.wix.reactnativenotifications.core.notification.IPushNotification;
+import com.wix.reactnativenotifications.core.notificationdrawer.INotificationsDrawerApplication;
+import com.wix.reactnativenotifications.core.notificationdrawer.IPushNotificationsDrawer;
 
-import android.util.Log;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import io.sentry.RNSentryPackage;
+import io.tradle.react.LocalAuthPackage;
 
 public class MainApplication extends NavigationApplication implements INotificationsApplication, INotificationsDrawerApplication {
   public NotificationsLifecycleFacade notificationsLifecycleFacade;
@@ -96,7 +98,7 @@ public class MainApplication extends NavigationApplication implements INotificat
             new ReactNativeExceptionHandlerPackage(),
             new ReactNativeYouTube(),
             new ReactVideoPackage(),
-            new RNReactNativeDocViewerPackage(),
+            new RNDocViewerPackage(),
             new ReactNativeDocumentPicker(),
             new SharePackage(this),
             new KeychainPackage(),
@@ -115,6 +117,7 @@ public class MainApplication extends NavigationApplication implements INotificat
   @Override
   public void onCreate() {
     super.onCreate();
+    APP_START_TIME = System.currentTimeMillis();
     instance = this;
 
     // Delete any previous temp files created by the app
@@ -129,8 +132,9 @@ public class MainApplication extends NavigationApplication implements INotificat
 
     SoLoader.init(this, /* native exopackage */ false);
 
+    addTraceMarkers();
     // Uncomment to listen to react markers for build that has telemetry enabled
-    // addReactMarkerListener();
+    //addReactMarkerListener();
   }
 
   @Override
@@ -154,6 +158,52 @@ public class MainApplication extends NavigationApplication implements INotificat
   @Override
   public IPushNotificationsDrawer getPushNotificationsDrawer(Context context, AppLaunchHelper defaultAppLaunchHelper) {
     return new CustomPushNotificationDrawer(context, defaultAppLaunchHelper);
+  }
+
+  private List<Bundle> mPerfMarkers = new ArrayList<>();
+
+  private void addTraceMarkers() {
+    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        WritableMap result = Arguments.createMap();
+        result.putDouble("startTime", APP_START_TIME);
+        WritableArray data = Arguments.createArray();
+        for (Bundle r : mPerfMarkers) {
+          WritableMap m = Arguments.createMap();
+          m.putDouble("time", r.getDouble("time"));
+          m.putString("name", r.getString("name"));
+          m.putString("tab", r.getString("tag"));
+          m.putInt("instanceKey", r.getInt("instanceKey"));
+          m.putInt("pid", r.getInt("pid"));
+          m.putInt("tid", r.getInt("tid"));
+          data.pushMap(m);
+        }
+
+        result.putArray("data", data);
+
+        ReactContext ctx = getReactGateway().getReactContext();
+        if (ctx != null) {
+          ctx.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).
+                  emit("perfMetrics", result);
+        }
+      }
+    }, 1000 * 15);
+
+    ReactMarker.addListener(new ReactMarker.MarkerListener() {
+      @Override
+      public void logMarker(ReactMarkerConstants name, @javax.annotation.Nullable String tag, int instanceKey) {
+        Bundle record = new Bundle();
+        record.putDouble("time", System.currentTimeMillis());
+        record.putString("name", name.toString());
+        record.putString("tag", tag);
+        record.putInt("instanceKey", instanceKey);
+        record.putInt("pid", Process.myPid());
+        record.putInt("tid", Process.myTid());
+
+        mPerfMarkers.add(record);
+      }
+    });
   }
 
   private void addReactMarkerListener() {

@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import {intlShape} from 'react-intl';
 
+import loggerComponent from 'perf';
+
 import PostBody from 'app/components/post_body';
 import PostHeader from 'app/components/post_header';
 import PostPreHeader from 'app/components/post_header/post_pre_header';
@@ -325,7 +327,7 @@ export default class Post extends PureComponent {
         const replyBarStyle = this.replyBarStyle();
         const rightColumnStyle = [style.rightColumn, (commentedOnPost && isLastReply && style.rightColumnPadding)];
 
-        return (
+        return loggerComponent("post",
             <TouchableHighlight
                 style={[style.postStyle, highlighted]}
                 onPress={this.handlePress}

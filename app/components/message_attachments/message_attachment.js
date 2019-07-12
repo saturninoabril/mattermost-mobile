@@ -17,6 +17,8 @@ import AttachmentText from './attachment_text';
 import AttachmentThumbnail from './attachment_thumbnail';
 import AttachmentTitle from './attachment_title';
 
+import loggerComponent from 'perf';
+
 const STATUS_COLORS = {
     good: '#00c100',
     warning: '#dede01',
@@ -64,7 +66,7 @@ export default class MessageAttachment extends PureComponent {
             }
         }
 
-        return (
+        return loggerComponent("message_attachment",
             <React.Fragment>
                 <AttachmentPreText
                     baseTextStyle={baseTextStyle}

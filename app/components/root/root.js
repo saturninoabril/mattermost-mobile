@@ -11,6 +11,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {NavigationTypes, ViewTypes} from 'app/constants';
 import {getTranslations} from 'app/i18n';
+import loggerComponent from 'perf';
 
 export default class Root extends PureComponent {
     static propTypes = {
@@ -67,7 +68,7 @@ export default class Root extends PureComponent {
     };
 
     handleNoTeams = () => {
-        if (!this.refs.provider) {
+        if (!this._providerRef) {
             setTimeout(this.handleNoTeams, 200);
             return;
         }
@@ -75,7 +76,7 @@ export default class Root extends PureComponent {
     };
 
     errorTeamsList = () => {
-        if (!this.refs.provider) {
+        if (!this._providerRef) {
             setTimeout(this.errorTeamsList, 200);
             return;
         }
@@ -84,7 +85,7 @@ export default class Root extends PureComponent {
 
     navigateToTeamsPage = (screen) => {
         const {currentUrl, navigator, theme} = this.props;
-        const {intl} = this.refs.provider.getChildContext();
+        const {intl} = this._providerRef.getChildContext();
 
         let navigatorButtons;
         let passProps = {theme};
@@ -146,9 +147,9 @@ export default class Root extends PureComponent {
     render() {
         const locale = this.props.locale;
 
-        return (
+        return loggerComponent("root",
             <IntlProvider
-                ref='provider'
+                ref={i => this._providerRef = i}
                 locale={locale}
                 messages={getTranslations(locale)}
             >
