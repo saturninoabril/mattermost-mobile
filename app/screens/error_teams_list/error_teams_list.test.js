@@ -18,10 +18,10 @@ describe('ErrorTeamsList', () => {
 
     const baseProps = {
         actions: {
-            loadMe: () => {}, // eslint-disable-line no-empty-function
-            connection: () => {}, // eslint-disable-line no-empty-function
-            logout: () => {}, // eslint-disable-line no-empty-function
-            selectDefaultTeam: () => {}, // eslint-disable-line no-empty-function
+            loadMe: jest.fn(),
+            connection: jest.fn(),
+            logout: jest.fn(),
+            selectDefaultTeam: jest.fn(),
             resetToChannel: jest.fn(),
         },
         componentId: 'component-id',
@@ -32,32 +32,31 @@ describe('ErrorTeamsList', () => {
         const wrapper = shallow(
             <ErrorTeamsList {...baseProps}/>
         );
+
+        expect(wrapper.find(FailedNetworkAction).exists()).toEqual(true);
         expect(wrapper.getElement()).toMatchSnapshot();
     });
 
-    test('should call for userInfo on retry', async () => {
-        const connection = jest.fn();
-        const selectDefaultTeam = jest.fn();
-        const logout = jest.fn();
-        const actions = {
-            ...baseProps.actions,
-            loadMe,
-            logout,
-            selectDefaultTeam,
-            connection,
-        };
-
-        const newProps = {
-            ...baseProps,
-            actions,
-        };
-
+    test('should load user and select dafult team on getUserInfo', async () => {
         const wrapper = shallow(
-            <ErrorTeamsList {...newProps}/>
+            <ErrorTeamsList {...baseProps}/>
         );
 
-        wrapper.find(FailedNetworkAction).props().onRetry();
-        await loadMe();
-        expect(selectDefaultTeam).toHaveBeenCalledTimes(1);
+        const instance = wrapper.instance();
+        await instance.getUserInfo();
+
+        expect(baseProps.actions.connection).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.connection).toBeCalledWith(true);
+
+        expect(baseProps.actions.loadMe).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.loadMe).toBeCalledWith();
+
+        expect(baseProps.actions.resetToChannel).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.resetToChannel).toBeCalledWith({disableTermsModal: true});
+
+        expect(baseProps.actions.selectDefaultTeam).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.selectDefaultTeam).toBeCalledWith();
+
+        expect(wrapper.state('loading')).toEqual(false);
     });
 });
