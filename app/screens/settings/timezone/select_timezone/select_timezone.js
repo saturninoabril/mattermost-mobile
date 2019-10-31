@@ -86,10 +86,18 @@ export default class Timezone extends PureComponent {
     });
 
     renderItem = ({item: timezone}) => {
+        // console.log('renderItem timezone:', timezone);
+
+        let tz;
+        if (typeof timezone === 'string') {
+            tz = timezone;
+        } else {
+            tz = timezone.label;
+        }
         return (
             <SelectTimezoneRow
                 theme={this.props.theme}
-                timezone={timezone}
+                timezone={tz}
                 selectedTimezone={this.props.selectedTimezone}
                 onPress={this.timezoneSelected}
                 isLandscape={this.props.isLandscape}

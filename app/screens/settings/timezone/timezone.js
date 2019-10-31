@@ -9,6 +9,7 @@ import {
     Platform,
 } from 'react-native';
 import {intlShape} from 'react-intl';
+import moment from 'moment-timezone';
 
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 
@@ -86,11 +87,41 @@ export default class Timezone extends PureComponent {
         }
     };
 
+    getTimezoneFromLabel = (timezones = [], label) => {
+        console.log('getTimezoneFromLabel label:', label)
+
+        let timezone;
+        for (let i = 0; i < timezones.length; i++) {
+            if (timezones[i].label === label) {
+                timezone = timezones[i];
+                break;
+            }
+        }
+
+        return timezone;
+    }
+
     updateManualTimezone = (manualTimezone) => {
+        let newManualTimezone;
+        if (moment.tz.names().includes(manualTimezone)) {
+            console.log('valid manualTimezone:', manualTimezone)
+            newManualTimezone = manualTimezone;
+            // this.submitUser({
+            //     useAutomaticTimezone: false,
+            //     automaticTimezone: '',
+            //     manualTimezone,
+            // });
+        } else {
+            const timezone = this.getTimezoneFromLabel(this.props.timezones, manualTimezone);
+            console.log('NOT valid >>> timezone:', timezone);
+            newManualTimezone = timezone.utc[0];
+            console.log('NOT valid >>> timezone.utc[0]:', timezone.utc[0]);
+        }
+
         this.submitUser({
             useAutomaticTimezone: false,
             automaticTimezone: '',
-            manualTimezone,
+            manualTimezone: newManualTimezone,
         });
     };
 
@@ -143,6 +174,9 @@ export default class Timezone extends PureComponent {
         } = this.props;
         const {useAutomaticTimezone} = this.state;
         const style = getStyleSheet(theme);
+
+        console.log('userTimezone:', this.props.userTimezone);
+        console.log('manualTimezone:', manualTimezone);
 
         return (
             <View style={style.container}>

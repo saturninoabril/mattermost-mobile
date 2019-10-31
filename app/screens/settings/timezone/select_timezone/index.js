@@ -12,6 +12,7 @@ import SelectTimezone from './select_timezone';
 function mapStateToProps(state, props) {
     const {selectedTimezone} = props;
     const supportedTimezones = getSupportedTimezones(state);
+    // console.log('supportedTimezones:', supportedTimezones);
 
     let index = 0;
 
