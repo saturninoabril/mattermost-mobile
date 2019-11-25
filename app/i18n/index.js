@@ -6,6 +6,8 @@ import {addLocaleData} from 'react-intl';
 import enLocaleData from 'react-intl/locale-data/en';
 import moment from 'moment';
 
+import {Client4} from 'mattermost-redux/client';
+
 import en from 'assets/i18n/en.json';
 
 const TRANSLATIONS = {en};
@@ -14,7 +16,19 @@ export const DEFAULT_LOCALE = 'en';
 
 addLocaleData(enLocaleData);
 
-function loadTranslation(locale) {
+async function loadTranslation(locale) {
+
+    // const siteURL = getConfig(state).SiteURL
+    // const appVersion = DeviceInfo.getVersion();
+
+    // The following are shortcuts for demo purpose only and should normally taken somewhere programmatically.
+    const siteUrl = 'http://localhost:8065'; // siteUrl from config
+    const appVersion = '1.24.0';
+    const localeUrl = '/plugins/com.mattermost.plugin-extended-locales/get_translation'; // from plugin API
+
+    // NOTE: Might be better to store translations info into the store, similar to how we're doing in the webapp
+    // so that change in available locales and change in user's locale setting may change the mobile app in realtime.
+
     try {
         let localeData;
         let momentData;
@@ -94,6 +108,46 @@ function loadTranslation(locale) {
             localeData = require('react-intl/locale-data/zh');
             momentData = require('moment/locale/zh-tw');
             break;
+        case 'no': {
+            const url = `${siteUrl}${localeUrl}?lang=no&client=rn&app_version=${appVersion}`;
+            const translations = await Client4.getTranslations(url);
+            TRANSLATIONS[locale] = translations;
+            localeData = require('react-intl/locale-data/no');
+            momentData = require('moment/locale/nn');
+            break;
+        }
+        case 'tl': {
+            const url = `${siteUrl}${localeUrl}?lang=tl&client=rn&app_version=${appVersion}`;
+            const translations = await Client4.getTranslations(url);
+            TRANSLATIONS[locale] = translations;
+            localeData = require('react-intl/locale-data/tl');
+            momentData = require('moment/locale/tl-ph');
+            break;
+        }
+        case 'fi': {
+            const url = `${siteUrl}${localeUrl}?lang=fi&client=rn&app_version=${appVersion}`;
+            const translations = await Client4.getTranslations(url);
+            TRANSLATIONS[locale] = translations;
+            localeData = require('react-intl/locale-data/fi');
+            momentData = require('moment/locale/fi');
+            break;
+        }
+        case 'id': {
+            const url = `${siteUrl}${localeUrl}?lang=id&client=rn&app_version=${appVersion}`;
+            const translations = await Client4.getTranslations(url);
+            TRANSLATIONS[locale] = translations;
+            localeData = require('react-intl/locale-data/id');
+            momentData = require('moment/locale/id');
+            break;
+        }
+        case 'se': {
+            const url = `${siteUrl}${localeUrl}?lang=se&client=rn&app_version=${appVersion}`;
+            const translations = await Client4.getTranslations(url);
+            TRANSLATIONS[locale] = translations;
+            localeData = require('react-intl/locale-data/se');
+            momentData = require('moment/locale/se');
+            break;
+        }
         }
 
         if (localeData) {
@@ -104,7 +158,8 @@ function loadTranslation(locale) {
             moment.updateLocale(locale.toLowerCase(), momentData);
         }
     } catch (e) {
-        console.error('NO Translation found', e); //eslint-disable-line no-console
+        // Disabled for demo purpose only.
+        // console.error('NO Translation found', e); //eslint-disable-line no-console
     }
 }
 

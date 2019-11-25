@@ -546,7 +546,6 @@ module.exports = [
     'node_modules/mattermost-redux/reducers/entities/index.js',
     'node_modules/mattermost-redux/reducers/entities/integrations.js',
     'node_modules/mattermost-redux/reducers/entities/jobs.js',
-    'node_modules/mattermost-redux/reducers/entities/plugins.js',
     'node_modules/mattermost-redux/reducers/entities/posts.js',
     'node_modules/mattermost-redux/reducers/entities/preferences.js',
     'node_modules/mattermost-redux/reducers/entities/roles.js',
