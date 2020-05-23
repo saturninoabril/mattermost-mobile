@@ -34,6 +34,7 @@ function SendButton(props) {
 
     return (
         <TouchableWithFeedback
+            accessibilityLabel='Send button'
             onPress={props.handleSendMessage}
             style={style.sendButtonContainer}
             type={'opacity'}

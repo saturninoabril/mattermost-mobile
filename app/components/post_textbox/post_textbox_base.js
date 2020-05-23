@@ -937,6 +937,7 @@ export default class PostTextBoxBase extends PureComponent {
                     disableScrollViewPanResponder={true}
                 >
                     <PasteableTextInput
+                        accessibilityLabel='New post input'
                         ref={this.input}
                         value={value}
                         style={{...style.input, ...inputStyle, maxHeight}}

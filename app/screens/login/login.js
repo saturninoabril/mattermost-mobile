@@ -336,6 +336,7 @@ export default class Login extends PureComponent {
 
             proceed = (
                 <Button
+                    accessibilityLabel='Sign in button'
                     onPress={this.preSignIn}
                     containerStyle={[GlobalStyles.signupButton, additionalStyle]}
                 >
@@ -352,6 +353,7 @@ export default class Login extends PureComponent {
         if (this.props.config.EnableSignInWithEmail === 'true' || this.props.config.EnableSignInWithUsername === 'true') {
             forgotPassword = (
                 <Button
+                    accessibilityLabel='Forgot password button'
                     onPress={this.forgotPassword}
                     containerStyle={[style.forgotPasswordBtn]}
                 >
@@ -393,6 +395,7 @@ export default class Login extends PureComponent {
                         </View>
                         <ErrorText error={this.state.error}/>
                         <TextInput
+                            accessibilityLabel='Email address input'
                             ref={this.loginRef}
                             style={GlobalStyles.inputBox}
                             placeholder={this.createLoginPlaceholder()}
@@ -407,6 +410,7 @@ export default class Login extends PureComponent {
                             disableFullscreenUI={true}
                         />
                         <TextInput
+                            accessibilityLabel='Password input'
                             ref={this.passwordRef}
                             style={GlobalStyles.inputBox}
                             placeholder={this.context.intl.formatMessage({id: 'login.password', defaultMessage: 'Password'})}

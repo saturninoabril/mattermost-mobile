@@ -442,6 +442,7 @@ export default class SelectServer extends PureComponent {
                                 />
                             </View>
                             <TextInput
+                                accessibilityLabel='Server URL input'
                                 ref={this.inputRef}
                                 value={url}
                                 editable={!inputDisabled}
@@ -461,6 +462,7 @@ export default class SelectServer extends PureComponent {
                                 disableFullscreenUI={true}
                             />
                             <Button
+                                accessibilityLabel='Connect button'
                                 onPress={this.handleConnect}
                                 containerStyle={[GlobalStyles.signupButton, style.connectButton]}
                             >
